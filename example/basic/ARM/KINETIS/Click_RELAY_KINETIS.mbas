@@ -1,0 +1,66 @@
+'
+'Example for RELAY Click
+'
+'    Date          : Mar 2018.
+'    Author        : MikroE Team
+'
+'Test configuration KINETIS :
+'    
+'    MCU              : MK64
+'    Dev. Board       : HEXIWEAR
+'    ARM Compiler ver : v6.0.0.0
+'
+'---
+'
+'Description :
+'
+'The application is composed of three sections :
+'
+'- System Initialization - Sets pin directions
+'- Application Initialization - Initializes driver
+'- Application Task - Turns relays on and off
+'
+'
+'
+program Click_RELAY_KINETIS
+
+include Click_RELAY_types
+include Click_RELAY_config
+
+sub procedure systemInit() 
+
+    mikrobus_gpioInit(_MIKROBUS1, _MIKROBUS_CS_PIN, _GPIO_OUTPUT) 
+    mikrobus_gpioInit(_MIKROBUS1, _MIKROBUS_PWM_PIN, _GPIO_OUTPUT) 
+    mikrobus_logInit(_MIKROBUS2, 9600) 
+    Delay_ms(100) 
+
+end sub
+
+sub procedure applicationInit() 
+
+    relay_gpioDriverInit(T_RELAY_P(@_MIKROBUS1_GPIO)) 
+
+end sub
+
+sub procedure applicationTask() 
+
+    relay_relay2Control(1) 
+    relay_relay1Control(1) 
+    mikrobus_logWrite("Relays turned on", _LOG_LINE) 
+    Delay_ms(1000) 
+    relay_relay2Control(0) 
+    relay_relay1Control(0) 
+    mikrobus_logWrite("Relays turned off", _LOG_LINE) 
+    Delay_ms(1000) 
+
+end sub
+
+main :
+
+    systemInit() 
+    applicationInit() 
+    while (1) 
+        applicationTask() 
+    wend
+
+end.

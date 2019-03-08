@@ -1,0 +1,5 @@
+unit Click_RELAY_config;
+
+uses Click_RELAY_types;
+
+end.

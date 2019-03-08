@@ -1,0 +1,5 @@
+module Click_RELAY_config
+
+include Click_RELAY_types
+
+end.
